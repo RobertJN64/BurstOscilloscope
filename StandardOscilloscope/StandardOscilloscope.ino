@@ -5,7 +5,7 @@
 
 #define CH_COUNT 2
 #define SAMPLE_COUNT 400
-#define SAMPLE_DELAY 1000 //micro seconds
+#define SAMPLE_DELAY 1 //milli seconds
 #define PRESAMPLE_COUNT 50
 #define TRIG false
 #define THRESH 100
@@ -13,6 +13,8 @@
 
 #define MAX 1000
 #define MIN -200
+
+long start_time;
 
 void presample_log(int value) {
   for (int i = 0; i < PRESAMPLE_COUNT/2; i++) {
@@ -40,7 +42,7 @@ void presample_log(int value) {
       Serial.print(value);
     }
     Serial.println();
-    delayMicroseconds(SAMPLE_DELAY);
+    delay(SAMPLE_DELAY);
   }
 }
 
@@ -54,13 +56,15 @@ void setup() {
   presample_log(MAX);
   presample_log(MIN);
 
+  start_time = millis();
+
   if (TRIG) {
     while(((analogRead(ch0) < THRESH) && RISING_EDGE) || ((analogRead(ch0) > THRESH) && !RISING_EDGE)) {
       
     }
   }
 
-  for (int i = 0; i < SAMPLE_COUNT; i++) {
+  for (int i = 0; i < SAMPLE_COUNT; ) {
     if (CH_COUNT > 0) {
       Serial.print("CH_0:");
       Serial.print(analogRead(ch0));
@@ -68,7 +72,7 @@ void setup() {
     if (CH_COUNT > 1) {
       Serial.print(",");
       Serial.print("CH_1:");
-      Serial.print(analogRead(ch1));
+      Serial.print(1500);
     }
     if (CH_COUNT > 2) {
       Serial.print(",");
@@ -81,7 +85,14 @@ void setup() {
       Serial.print(analogRead(ch3));
     }
     Serial.println();
-    delayMicroseconds(SAMPLE_DELAY);
+    delay(SAMPLE_DELAY);
+  }
+
+  //start_time = millis();
+  long end_time = millis();
+  for (int i = 0; i < 50; i++) {
+    Serial.print("TIME:");
+    Serial.println(end_time - start_time);
   }
 }
 
