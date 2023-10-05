@@ -1,7 +1,7 @@
 import serial
 
 port = 'COM9'
-length = 0
+length = 1000
 
 scope = serial.Serial(port, 115200)
 data = []
@@ -9,7 +9,7 @@ data = []
 while True:
     line = scope.readline().decode('utf-8').strip()
     if '$' in line:
-        data.append(int(line.replace('$:', '')))
+        data.append(line.replace('$:', ''))
         if (len(data) * 100 / length).is_integer():
             print(str(int(len(data) * 100 / length)) + "%")
     elif '#' in line:
@@ -20,6 +20,6 @@ while True:
         print(line)
 
 
-with open('log.txt', 'w+') as f:
+with open('log_multi.txt', 'w+') as f:
     for line in data:
         f.write(str(line) + '\n')
