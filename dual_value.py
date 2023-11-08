@@ -2,6 +2,7 @@ import serial
 
 port = 'COM9'
 length = 1000
+length *= 1.1
 
 scope = serial.Serial(port, 115200)
 data = []
