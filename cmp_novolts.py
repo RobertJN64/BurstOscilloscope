@@ -6,21 +6,17 @@ labels = []
 # cmp1 = input("Log file: ")
 # cmp2 = input("Log file: ")
 
-cmp1 = 'mosfet'
-cmp2 = 'pcb'
-cmp3 = 'pcb_1.1'
-cmp4 = 'nomos'
+cmps = [('nomos', 'Tracker mA'), ('pcb', 'Tracker w/ PCB mA')]
 
-
-for cmp in [cmp1, cmp2, cmp3, cmp4]:
+for cmp, label in cmps:
     with open('Logs/' + cmp + '.txt') as f:
         data.append([])
-        labels.append(cmp + " mAmps")
+        labels.append(label)
         for line in f.readlines():
             a, b = line.strip().split(',')
             data[-1].append(float(b))
 
-with open('Logs/' + cmp1 + '.txt') as f:
+with open('Logs/' + cmps[0][0] + '.txt') as f:
     data.append([])
     labels.append("Volts")
     for line in f.readlines():
